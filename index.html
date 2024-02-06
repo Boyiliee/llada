@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Synthesizing Moving People with 3D Control">
+  <meta name="keywords" content="Diffusion Models, 3D">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Synthesizing Moving People with 3D Control</title>
+  <style>
+        body {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+        .navbar {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+        .footer {
+            background-color: black !important;
+        }
+        .section {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+  </style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+<!--   <link rel="icon" href="./static/images/favicon.svg"> -->
+  <link rel="icon" href="./static/images/icon2.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+  
+<body>
+<style>
+      body {
+          background-color: black;
+          color: white; /* Set text color to white for better visibility on a black background */
+      }
+      .navbar {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+      .hero {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+      .citation-block {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+      .pre {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+      .code {
+            background-color: black !important;
+            color: white; /* Set text color to white for better visibility on a black background */
+        }
+      .author-block {
+            color: #5CB3FF; /* Set the link color within the author block to white */
+        }
+      .hero-body {
+            color: #82CAFF; /* Set the link color within the author block to white */
+        }
+      .footer {
+            background-color: black !important;
+            color: #9F8C76 !important;
+        }
+      .publication-title {
+          color: #FED8B1 !important; /* Set text color to white for better visibility on a black background #FFAE42 */ 
+      }
+      .subtitle {
+          color: #FED8B1 !important; /* Set text color to white for better visibility on a black background */
+      }
+      .section h2 {
+            color: #FED8B1 !important; /* Set the title color to orange */
+        }
+      .section h3 {
+            color: #FED8B1 !important; /* Set the title color to white */
+        }
+</style>
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered"> 
+          <h1 class="title is-1 publication-title">Synthesizing Moving People with 3D Control</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://sites.google.com/site/boyilics/home" style="color: #5CB3FF !important;">Boyi Li</a>,</span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~jathushan/" style="color: #5CB3FF !important;">Jathushan Rajasegaran</a>,</span>
+            <span class="author-block">
+              <a href="https://yossigandelsman.github.io/" style="color: #5CB3FF !important;">Yossi Gandelsman</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~efros/" style="color: #5CB3FF !important;">Alexei A. Efros</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://people.eecs.berkeley.edu/~malik/" style="color: #5CB3FF !important;">Jitendra Malik</a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">UC Berkeley</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2401.10889"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/2401.10889"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://youtu.be/iGGlFQJ-OyQ"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Boyiliee/3DHM"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+<!--           &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspActor 
+          (Target 3D Poses)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          Input Photo &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          Texture Mapped &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          Imitator (Output)&nbsp&nbsp  -->
+      From left to right: Actor(Target 3D Poses), Input Photo, Texture Mapped, and Imitator (Output).
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/v1.mov"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">We propose 3DHM, a two-stage framework that reconstructs 3D Human Motions by completing a texture map from a single image and then rendering the 3D humans to imitate the actions of the actor.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- autoplay controls muted loop playsinline -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay muted loop preload playsinline height="100%">
+            <source src="./static/videos/test4_27.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay muted loop preload playsinline height="100%">
+            <source src="./static/videos/test12_11.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay muted loop preload playsinline height="100%">
+            <source src="./static/videos/test16_21.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/test2_21.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/test37_27.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/test9_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/test3_15.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/test10_23.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present a diffusion model-based framework for animating people from a single image for a given target 3D motion sequence. 
+          </p>
+          <p>
+            Our approach has two core components: a) learning priors about invisible parts of the human body and clothing, and b) rendering novel body poses with proper clothing and texture. For the first part, we learn an in-filling diffusion model to hallucinate unseen parts of a person given a single image. We train this model on texture map space, which makes it more sample-efficient since it is invariant to pose and viewpoint. Second, we develop a diffusion-based rendering pipeline, which is controlled by 3D human poses. This produces realistic renderings of novel poses of the person, including clothing, hair, and plausible in-filling of unseen regions. 
+          </p>
+          <p>
+            This disentangled approach allows our method to generate a sequence of images that are faithful to the target motion in the 3D pose and, to the input image in terms of visual similarity. In addition to that, the 3D control allows various synthetic camera trajectories to render a person. Our experiments show that our method is resilient in generating prolonged motions and varied challenging and complex poses compared to prior methods. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+<!--     https://www.youtube.com/embed/ -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/iGGlFQJ-OyQ"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<!-- Animations start -->
+<section class="section">
+  <div class="container is-max-desktop">
+
+<!--     <div class="columns is-centered"> -->
+    <!-- training features -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Training Features</h2>
+        <div class="content has-text-justified">
+          <p>
+            💡 3DHM training pipeline (for both stages) is self-supervised. <br>
+            💡 3DHM does not use any additional annotations. It is trained with pseudo-ground-truth as we use cutting-edge software <br> 
+            &nbsp&nbsp&nbsp which can detect, segment, track, and 3Dfy humans (H4D). <br>
+            💡 3DHM is scalable and its scaling can be done readily in the future given additional videos of humans in motion and <br> 
+            &nbsp&nbsp&nbsp computing resources. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ training features -->
+
+    <!-- training features -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Key Features</h2>
+        <div class="content has-text-justified">
+          <p>
+            💡 Various Camera Viewpoints. <br>
+            💡 Motions from Text. <br> 
+            💡 Motions from Random Videos (Various 3D poses). <br>
+            💡 Various Camera Azimuths. <br>
+            💡 Long-range Motions. <br>
+            💡 Challenging Motions. <br>
+            💡 Animations from just the Back View. <br>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ training features -->
+
+    
+    <!-- long-range -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables Long-range Human Video Generation</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">Re-rendering the input video</h3> -->
+        <div class="content has-text-justified">
+          <p>
+            3DHM Enables Long-range Human Video Generation
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test10_10.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ long-range. -->
+
+      </div>
+    </div>
+    <!--/ long-range -->
+
+    <!-- different camera angle -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables Random Camera Azimuth</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">Re-rendering the input video</h3> -->
+        <div class="content has-text-justified">
+          <p>
+            With 3D Control, you can synthesize moving humans from varied camera azimuths.
+          </p>
+          <p style="color: #82CAFF;">
+            From left to right: Actor, Input Photo, Imitator (from the original camera azimuth), and Imitator (from varied camera azimuths).
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test1_27_azimuth.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test13_27_azimuth.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ different camera angle -->
+
+
+    <!-- from back -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables Animations from just the Back View</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">3DHM Enables Animations Only from Back</h3> -->
+        <div class="content has-text-justified">
+          <p>
+            Using 3D, you can predict human videos by only seeing the backside of the human photo.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test41_10.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ from back. -->
+
+      </div>
+    </div>
+    <!--/ from back. -->
+
+    <!-- Motion from Text -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables Human Motion from Text</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">Prompt: A person turns to his right and paces back and forth. </h3> -->
+        <div class="content has-text-justified">
+          <p>
+            With 3D Control, you can synthesize moving people from text input.
+          </p>
+          <p style="color: #82CAFF;">
+            Text Input: A person turns to his right and paces back and forth.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test3t4.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Motion from Text -->
+
+    
+
+    <!-- various viewpoints -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables 360 degree Camera Viewpoints</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">Re-rendering the input video</h3> -->
+        <div class="content has-text-justified">
+          <p>
+            With 3D control, you can synthesize moving humans from different camera viewpoints.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test35_1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ various view points. -->
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">3DHM Enables Challenging Motions.</h2>
+
+        <!-- Re-rendering. v3.mp4 -->
+<!--         <h3 class="title is-4">Re-rendering the input video</h3> -->
+        <div class="content has-text-justified">
+          <p>
+            With 3D control, you can synthesize moving with challenging motions. <br> Please check how the body moves, with special attention to the legs.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test4_22.mp4" 
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+    
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">More Animations</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Make the man dance like the performer</h3>
+        <div class="content has-text-justified">
+<!--           <p>
+            Make the man dance like the performer.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/v2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+
+        <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+<!--         <h3 class="title is-4">Re-rendering the input video</h3> --> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test3_27.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+     <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Make the woman walk like the performer</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Make the woman walk like the performer.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test22_21.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+
+       
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Skating</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test12_13.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Ballet</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/ballet.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Online Relaxation Course</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/v6.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+     <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Dance like Michael Jackson!</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test4_15.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+      <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Dance like Gene Kelly!</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/test10genlly1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+    
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+<!--         <h2 class="title is-3">Human Motion from Random Video Resouces</h2>
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Skate like Michelle Kwan!</h3> 
+        <div class="content has-text-justified">
+<!--           <p>
+            Using 3D, you can synthesize moving humans from random video resources.
+          </p> -->
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 autoplay muted loop preload
+                 playsinline
+                 height="100%" autoplay>
+            <source src="./static/videos/v5.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <div class="citation-block">
+    @article{li20243dhm,<br>&nbsp&nbsp&nbsp;
+                author    = {Li, Boyi and Rajasegaran, Jathushan and Gandelsman, Yossi and Efros, Alexei A. and Malik, Jitendra},<br>&nbsp&nbsp&nbsp;
+                title     = {Synthesizing Moving People with 3D Control},<br>&nbsp&nbsp&nbsp;
+                journal   = {Arxiv},<br>&nbsp&nbsp&nbsp;
+                year      = {2024},<br>
+            }
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            We thank the template from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
